@@ -19,11 +19,11 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Auth_Register_FullMethodName       = "/auth.Auth/Register"
-	Auth_Login_FullMethodName          = "/auth.Auth/Login"
-	Auth_IsAdmin_FullMethodName        = "/auth.Auth/IsAdmin"
-	Auth_Logout_FullMethodName         = "/auth.Auth/Logout"
-	Auth_GetUserProfile_FullMethodName = "/auth.Auth/GetUserProfile"
+	Auth_Register_FullMethodName = "/auth.Auth/Register"
+	Auth_Login_FullMethodName    = "/auth.Auth/Login"
+	Auth_IsAdmin_FullMethodName  = "/auth.Auth/IsAdmin"
+	Auth_Logout_FullMethodName   = "/auth.Auth/Logout"
+	Auth_Profile_FullMethodName  = "/auth.Auth/Profile"
 )
 
 // AuthClient is the client API for Auth service.
@@ -40,7 +40,7 @@ type AuthClient interface {
 	IsAdmin(ctx context.Context, in *IsAdminRequest, opts ...grpc.CallOption) (*IsAdminResponse, error)
 	Logout(ctx context.Context, in *LogoutRequest, opts ...grpc.CallOption) (*LogoutResponse, error)
 	// UserInfo
-	GetUserProfile(ctx context.Context, in *UserID, opts ...grpc.CallOption) (*UserProfile, error)
+	Profile(ctx context.Context, in *ProfileRequest, opts ...grpc.CallOption) (*ProfileResponce, error)
 }
 
 type authClient struct {
@@ -91,10 +91,10 @@ func (c *authClient) Logout(ctx context.Context, in *LogoutRequest, opts ...grpc
 	return out, nil
 }
 
-func (c *authClient) GetUserProfile(ctx context.Context, in *UserID, opts ...grpc.CallOption) (*UserProfile, error) {
+func (c *authClient) Profile(ctx context.Context, in *ProfileRequest, opts ...grpc.CallOption) (*ProfileResponce, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(UserProfile)
-	err := c.cc.Invoke(ctx, Auth_GetUserProfile_FullMethodName, in, out, cOpts...)
+	out := new(ProfileResponce)
+	err := c.cc.Invoke(ctx, Auth_Profile_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -115,7 +115,7 @@ type AuthServer interface {
 	IsAdmin(context.Context, *IsAdminRequest) (*IsAdminResponse, error)
 	Logout(context.Context, *LogoutRequest) (*LogoutResponse, error)
 	// UserInfo
-	GetUserProfile(context.Context, *UserID) (*UserProfile, error)
+	Profile(context.Context, *ProfileRequest) (*ProfileResponce, error)
 	mustEmbedUnimplementedAuthServer()
 }
 
@@ -138,8 +138,8 @@ func (UnimplementedAuthServer) IsAdmin(context.Context, *IsAdminRequest) (*IsAdm
 func (UnimplementedAuthServer) Logout(context.Context, *LogoutRequest) (*LogoutResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Logout not implemented")
 }
-func (UnimplementedAuthServer) GetUserProfile(context.Context, *UserID) (*UserProfile, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetUserProfile not implemented")
+func (UnimplementedAuthServer) Profile(context.Context, *ProfileRequest) (*ProfileResponce, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Profile not implemented")
 }
 func (UnimplementedAuthServer) mustEmbedUnimplementedAuthServer() {}
 func (UnimplementedAuthServer) testEmbeddedByValue()              {}
@@ -234,20 +234,20 @@ func _Auth_Logout_Handler(srv interface{}, ctx context.Context, dec func(interfa
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Auth_GetUserProfile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UserID)
+func _Auth_Profile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ProfileRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AuthServer).GetUserProfile(ctx, in)
+		return srv.(AuthServer).Profile(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Auth_GetUserProfile_FullMethodName,
+		FullMethod: Auth_Profile_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthServer).GetUserProfile(ctx, req.(*UserID))
+		return srv.(AuthServer).Profile(ctx, req.(*ProfileRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -276,8 +276,8 @@ var Auth_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Auth_Logout_Handler,
 		},
 		{
-			MethodName: "GetUserProfile",
-			Handler:    _Auth_GetUserProfile_Handler,
+			MethodName: "Profile",
+			Handler:    _Auth_Profile_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

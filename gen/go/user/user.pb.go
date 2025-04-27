@@ -397,27 +397,27 @@ func (x *LogoutResponse) GetSuccess() bool {
 	return false
 }
 
-type UserID struct {
+type ProfileRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserId        int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *UserID) Reset() {
-	*x = UserID{}
+func (x *ProfileRequest) Reset() {
+	*x = ProfileRequest{}
 	mi := &file_user_user_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *UserID) String() string {
+func (x *ProfileRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*UserID) ProtoMessage() {}
+func (*ProfileRequest) ProtoMessage() {}
 
-func (x *UserID) ProtoReflect() protoreflect.Message {
+func (x *ProfileRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_user_user_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -429,19 +429,19 @@ func (x *UserID) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UserID.ProtoReflect.Descriptor instead.
-func (*UserID) Descriptor() ([]byte, []int) {
+// Deprecated: Use ProfileRequest.ProtoReflect.Descriptor instead.
+func (*ProfileRequest) Descriptor() ([]byte, []int) {
 	return file_user_user_proto_rawDescGZIP(), []int{8}
 }
 
-func (x *UserID) GetUserId() int64 {
+func (x *ProfileRequest) GetUserId() int64 {
 	if x != nil {
 		return x.UserId
 	}
 	return 0
 }
 
-type UserProfile struct {
+type ProfileResponce struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserId        int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
@@ -451,20 +451,20 @@ type UserProfile struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *UserProfile) Reset() {
-	*x = UserProfile{}
+func (x *ProfileResponce) Reset() {
+	*x = ProfileResponce{}
 	mi := &file_user_user_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *UserProfile) String() string {
+func (x *ProfileResponce) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*UserProfile) ProtoMessage() {}
+func (*ProfileResponce) ProtoMessage() {}
 
-func (x *UserProfile) ProtoReflect() protoreflect.Message {
+func (x *ProfileResponce) ProtoReflect() protoreflect.Message {
 	mi := &file_user_user_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -476,33 +476,33 @@ func (x *UserProfile) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UserProfile.ProtoReflect.Descriptor instead.
-func (*UserProfile) Descriptor() ([]byte, []int) {
+// Deprecated: Use ProfileResponce.ProtoReflect.Descriptor instead.
+func (*ProfileResponce) Descriptor() ([]byte, []int) {
 	return file_user_user_proto_rawDescGZIP(), []int{9}
 }
 
-func (x *UserProfile) GetUserId() int64 {
+func (x *ProfileResponce) GetUserId() int64 {
 	if x != nil {
 		return x.UserId
 	}
 	return 0
 }
 
-func (x *UserProfile) GetName() string {
+func (x *ProfileResponce) GetName() string {
 	if x != nil {
 		return x.Name
 	}
 	return ""
 }
 
-func (x *UserProfile) GetEmail() string {
+func (x *ProfileResponce) GetEmail() string {
 	if x != nil {
 		return x.Email
 	}
 	return ""
 }
 
-func (x *UserProfile) GetVersion() int32 {
+func (x *ProfileResponce) GetVersion() int32 {
 	if x != nil {
 		return x.Version
 	}
@@ -532,20 +532,20 @@ const file_user_user_proto_rawDesc = "" +
 	"\rLogoutRequest\x12\x14\n" +
 	"\x05token\x18\x01 \x01(\tR\x05token\"*\n" +
 	"\x0eLogoutResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess\"!\n" +
-	"\x06UserID\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\x03R\x06userId\"j\n" +
-	"\vUserProfile\x12\x17\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\")\n" +
+	"\x0eProfileRequest\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\x03R\x06userId\"n\n" +
+	"\x0fProfileResponce\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x14\n" +
 	"\x05email\x18\x03 \x01(\tR\x05email\x12\x18\n" +
-	"\aversion\x18\x04 \x01(\x05R\aversion2\x93\x02\n" +
+	"\aversion\x18\x04 \x01(\x05R\aversion2\x98\x02\n" +
 	"\x04Auth\x129\n" +
 	"\bRegister\x12\x15.auth.RegisterRequest\x1a\x16.auth.RegisterResponse\x120\n" +
 	"\x05Login\x12\x12.auth.LoginRequest\x1a\x13.auth.LoginResponse\x126\n" +
 	"\aIsAdmin\x12\x14.auth.IsAdminRequest\x1a\x15.auth.IsAdminResponse\x123\n" +
-	"\x06Logout\x12\x13.auth.LogoutRequest\x1a\x14.auth.LogoutResponse\x121\n" +
-	"\x0eGetUserProfile\x12\f.auth.UserID\x1a\x11.auth.UserProfileB6Z4github.com/Temutjin2k/TyndauProto/gen/go/user;userv1b\x06proto3"
+	"\x06Logout\x12\x13.auth.LogoutRequest\x1a\x14.auth.LogoutResponse\x126\n" +
+	"\aProfile\x12\x14.auth.ProfileRequest\x1a\x15.auth.ProfileResponceB6Z4github.com/Temutjin2k/TyndauProto/gen/go/user;userv1b\x06proto3"
 
 var (
 	file_user_user_proto_rawDescOnce sync.Once
@@ -569,20 +569,20 @@ var file_user_user_proto_goTypes = []any{
 	(*LoginResponse)(nil),    // 5: auth.LoginResponse
 	(*LogoutRequest)(nil),    // 6: auth.LogoutRequest
 	(*LogoutResponse)(nil),   // 7: auth.LogoutResponse
-	(*UserID)(nil),           // 8: auth.UserID
-	(*UserProfile)(nil),      // 9: auth.UserProfile
+	(*ProfileRequest)(nil),   // 8: auth.ProfileRequest
+	(*ProfileResponce)(nil),  // 9: auth.ProfileResponce
 }
 var file_user_user_proto_depIdxs = []int32{
 	2, // 0: auth.Auth.Register:input_type -> auth.RegisterRequest
 	4, // 1: auth.Auth.Login:input_type -> auth.LoginRequest
 	0, // 2: auth.Auth.IsAdmin:input_type -> auth.IsAdminRequest
 	6, // 3: auth.Auth.Logout:input_type -> auth.LogoutRequest
-	8, // 4: auth.Auth.GetUserProfile:input_type -> auth.UserID
+	8, // 4: auth.Auth.Profile:input_type -> auth.ProfileRequest
 	3, // 5: auth.Auth.Register:output_type -> auth.RegisterResponse
 	5, // 6: auth.Auth.Login:output_type -> auth.LoginResponse
 	1, // 7: auth.Auth.IsAdmin:output_type -> auth.IsAdminResponse
 	7, // 8: auth.Auth.Logout:output_type -> auth.LogoutResponse
-	9, // 9: auth.Auth.GetUserProfile:output_type -> auth.UserProfile
+	9, // 9: auth.Auth.Profile:output_type -> auth.ProfileResponce
 	5, // [5:10] is the sub-list for method output_type
 	0, // [0:5] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
