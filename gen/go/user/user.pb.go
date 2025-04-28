@@ -7,6 +7,7 @@
 package userv1
 
 import (
+	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -441,7 +442,7 @@ func (x *ProfileRequest) GetUserId() int64 {
 	return 0
 }
 
-type ProfileResponce struct {
+type ProfileResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserId        int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
@@ -451,20 +452,20 @@ type ProfileResponce struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *ProfileResponce) Reset() {
-	*x = ProfileResponce{}
+func (x *ProfileResponse) Reset() {
+	*x = ProfileResponse{}
 	mi := &file_user_user_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *ProfileResponce) String() string {
+func (x *ProfileResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ProfileResponce) ProtoMessage() {}
+func (*ProfileResponse) ProtoMessage() {}
 
-func (x *ProfileResponce) ProtoReflect() protoreflect.Message {
+func (x *ProfileResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_user_user_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -476,44 +477,132 @@ func (x *ProfileResponce) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ProfileResponce.ProtoReflect.Descriptor instead.
-func (*ProfileResponce) Descriptor() ([]byte, []int) {
+// Deprecated: Use ProfileResponse.ProtoReflect.Descriptor instead.
+func (*ProfileResponse) Descriptor() ([]byte, []int) {
 	return file_user_user_proto_rawDescGZIP(), []int{9}
 }
 
-func (x *ProfileResponce) GetUserId() int64 {
+func (x *ProfileResponse) GetUserId() int64 {
 	if x != nil {
 		return x.UserId
 	}
 	return 0
 }
 
-func (x *ProfileResponce) GetName() string {
+func (x *ProfileResponse) GetName() string {
 	if x != nil {
 		return x.Name
 	}
 	return ""
 }
 
-func (x *ProfileResponce) GetEmail() string {
+func (x *ProfileResponse) GetEmail() string {
 	if x != nil {
 		return x.Email
 	}
 	return ""
 }
 
-func (x *ProfileResponce) GetVersion() int32 {
+func (x *ProfileResponse) GetVersion() int32 {
 	if x != nil {
 		return x.Version
 	}
 	return 0
 }
 
+type DeleteUserRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserId        int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteUserRequest) Reset() {
+	*x = DeleteUserRequest{}
+	mi := &file_user_user_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteUserRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteUserRequest) ProtoMessage() {}
+
+func (x *DeleteUserRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_user_user_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteUserRequest.ProtoReflect.Descriptor instead.
+func (*DeleteUserRequest) Descriptor() ([]byte, []int) {
+	return file_user_user_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *DeleteUserRequest) GetUserId() int64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+type DeleteUserResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteUserResponse) Reset() {
+	*x = DeleteUserResponse{}
+	mi := &file_user_user_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteUserResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteUserResponse) ProtoMessage() {}
+
+func (x *DeleteUserResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_user_user_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteUserResponse.ProtoReflect.Descriptor instead.
+func (*DeleteUserResponse) Descriptor() ([]byte, []int) {
+	return file_user_user_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *DeleteUserResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
 var File_user_user_proto protoreflect.FileDescriptor
 
 const file_user_user_proto_rawDesc = "" +
 	"\n" +
-	"\x0fuser/user.proto\x12\x04auth\")\n" +
+	"\x0fuser/user.proto\x12\x04auth\x1a\x1cgoogle/api/annotations.proto\")\n" +
 	"\x0eIsAdminRequest\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\x03R\x06userId\",\n" +
 	"\x0fIsAdminResponse\x12\x19\n" +
@@ -535,17 +624,23 @@ const file_user_user_proto_rawDesc = "" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\")\n" +
 	"\x0eProfileRequest\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\x03R\x06userId\"n\n" +
-	"\x0fProfileResponce\x12\x17\n" +
+	"\x0fProfileResponse\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x14\n" +
 	"\x05email\x18\x03 \x01(\tR\x05email\x12\x18\n" +
-	"\aversion\x18\x04 \x01(\x05R\aversion2\x98\x02\n" +
-	"\x04Auth\x129\n" +
-	"\bRegister\x12\x15.auth.RegisterRequest\x1a\x16.auth.RegisterResponse\x120\n" +
-	"\x05Login\x12\x12.auth.LoginRequest\x1a\x13.auth.LoginResponse\x126\n" +
-	"\aIsAdmin\x12\x14.auth.IsAdminRequest\x1a\x15.auth.IsAdminResponse\x123\n" +
-	"\x06Logout\x12\x13.auth.LogoutRequest\x1a\x14.auth.LogoutResponse\x126\n" +
-	"\aProfile\x12\x14.auth.ProfileRequest\x1a\x15.auth.ProfileResponceB6Z4github.com/Temutjin2k/TyndauProto/gen/go/user;userv1b\x06proto3"
+	"\aversion\x18\x04 \x01(\x05R\aversion\",\n" +
+	"\x11DeleteUserRequest\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\x03R\x06userId\".\n" +
+	"\x12DeleteUserResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess2\xda\x02\n" +
+	"\x04Auth\x12W\n" +
+	"\bRegister\x12\x15.auth.RegisterRequest\x1a\x16.auth.RegisterResponse\"\x1c\x82\xd3\xe4\x93\x02\x16:\x01*\"\x11/v1/auth/register\x12K\n" +
+	"\x05Login\x12\x12.auth.LoginRequest\x1a\x13.auth.LoginResponse\"\x19\x82\xd3\xe4\x93\x02\x13:\x01*\"\x0e/v1/auth/login\x12[\n" +
+	"\aIsAdmin\x12\x14.auth.IsAdminRequest\x1a\x15.auth.IsAdminResponse\"#\x82\xd3\xe4\x93\x02\x1d\x12\x1b/v1/auth/{user_id}/is_admin\x12O\n" +
+	"\x06Logout\x12\x13.auth.LogoutRequest\x1a\x14.auth.LogoutResponse\"\x1a\x82\xd3\xe4\x93\x02\x14:\x01*\"\x0f/v1/auth/logout2\xbd\x01\n" +
+	"\x04User\x12[\n" +
+	"\aProfile\x12\x14.auth.ProfileRequest\x1a\x15.auth.ProfileResponse\"#\x82\xd3\xe4\x93\x02\x1d\x12\x1b/v1/users/{user_id}/profile\x12X\n" +
+	"\x06Delete\x12\x17.auth.DeleteUserRequest\x1a\x18.auth.DeleteUserResponse\"\x1b\x82\xd3\xe4\x93\x02\x15*\x13/v1/users/{user_id}B6Z4github.com/Temutjin2k/TyndauProto/gen/go/user;userv1b\x06proto3"
 
 var (
 	file_user_user_proto_rawDescOnce sync.Once
@@ -559,35 +654,39 @@ func file_user_user_proto_rawDescGZIP() []byte {
 	return file_user_user_proto_rawDescData
 }
 
-var file_user_user_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_user_user_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
 var file_user_user_proto_goTypes = []any{
-	(*IsAdminRequest)(nil),   // 0: auth.IsAdminRequest
-	(*IsAdminResponse)(nil),  // 1: auth.IsAdminResponse
-	(*RegisterRequest)(nil),  // 2: auth.RegisterRequest
-	(*RegisterResponse)(nil), // 3: auth.RegisterResponse
-	(*LoginRequest)(nil),     // 4: auth.LoginRequest
-	(*LoginResponse)(nil),    // 5: auth.LoginResponse
-	(*LogoutRequest)(nil),    // 6: auth.LogoutRequest
-	(*LogoutResponse)(nil),   // 7: auth.LogoutResponse
-	(*ProfileRequest)(nil),   // 8: auth.ProfileRequest
-	(*ProfileResponce)(nil),  // 9: auth.ProfileResponce
+	(*IsAdminRequest)(nil),     // 0: auth.IsAdminRequest
+	(*IsAdminResponse)(nil),    // 1: auth.IsAdminResponse
+	(*RegisterRequest)(nil),    // 2: auth.RegisterRequest
+	(*RegisterResponse)(nil),   // 3: auth.RegisterResponse
+	(*LoginRequest)(nil),       // 4: auth.LoginRequest
+	(*LoginResponse)(nil),      // 5: auth.LoginResponse
+	(*LogoutRequest)(nil),      // 6: auth.LogoutRequest
+	(*LogoutResponse)(nil),     // 7: auth.LogoutResponse
+	(*ProfileRequest)(nil),     // 8: auth.ProfileRequest
+	(*ProfileResponse)(nil),    // 9: auth.ProfileResponse
+	(*DeleteUserRequest)(nil),  // 10: auth.DeleteUserRequest
+	(*DeleteUserResponse)(nil), // 11: auth.DeleteUserResponse
 }
 var file_user_user_proto_depIdxs = []int32{
-	2, // 0: auth.Auth.Register:input_type -> auth.RegisterRequest
-	4, // 1: auth.Auth.Login:input_type -> auth.LoginRequest
-	0, // 2: auth.Auth.IsAdmin:input_type -> auth.IsAdminRequest
-	6, // 3: auth.Auth.Logout:input_type -> auth.LogoutRequest
-	8, // 4: auth.Auth.Profile:input_type -> auth.ProfileRequest
-	3, // 5: auth.Auth.Register:output_type -> auth.RegisterResponse
-	5, // 6: auth.Auth.Login:output_type -> auth.LoginResponse
-	1, // 7: auth.Auth.IsAdmin:output_type -> auth.IsAdminResponse
-	7, // 8: auth.Auth.Logout:output_type -> auth.LogoutResponse
-	9, // 9: auth.Auth.Profile:output_type -> auth.ProfileResponce
-	5, // [5:10] is the sub-list for method output_type
-	0, // [0:5] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	2,  // 0: auth.Auth.Register:input_type -> auth.RegisterRequest
+	4,  // 1: auth.Auth.Login:input_type -> auth.LoginRequest
+	0,  // 2: auth.Auth.IsAdmin:input_type -> auth.IsAdminRequest
+	6,  // 3: auth.Auth.Logout:input_type -> auth.LogoutRequest
+	8,  // 4: auth.User.Profile:input_type -> auth.ProfileRequest
+	10, // 5: auth.User.Delete:input_type -> auth.DeleteUserRequest
+	3,  // 6: auth.Auth.Register:output_type -> auth.RegisterResponse
+	5,  // 7: auth.Auth.Login:output_type -> auth.LoginResponse
+	1,  // 8: auth.Auth.IsAdmin:output_type -> auth.IsAdminResponse
+	7,  // 9: auth.Auth.Logout:output_type -> auth.LogoutResponse
+	9,  // 10: auth.User.Profile:output_type -> auth.ProfileResponse
+	11, // 11: auth.User.Delete:output_type -> auth.DeleteUserResponse
+	6,  // [6:12] is the sub-list for method output_type
+	0,  // [0:6] is the sub-list for method input_type
+	0,  // [0:0] is the sub-list for extension type_name
+	0,  // [0:0] is the sub-list for extension extendee
+	0,  // [0:0] is the sub-list for field type_name
 }
 
 func init() { file_user_user_proto_init() }
@@ -601,9 +700,9 @@ func file_user_user_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_user_user_proto_rawDesc), len(file_user_user_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   10,
+			NumMessages:   12,
 			NumExtensions: 0,
-			NumServices:   1,
+			NumServices:   2,
 		},
 		GoTypes:           file_user_user_proto_goTypes,
 		DependencyIndexes: file_user_user_proto_depIdxs,

@@ -4,17 +4,55 @@ package auth;
 
 option go_package = "github.com/Temutjin2k/TyndauProto/gen/go/user;userv1";
 
+import "google/api/annotations.proto";
+
 // Auth is service for managing permissions and roles.
 service Auth {
   // Register registers a new user.
-  rpc Register (RegisterRequest) returns (RegisterResponse);
+  rpc Register (RegisterRequest) returns (RegisterResponse) {
+    option (google.api.http) = {
+      post: "/v1/auth/register"
+      body: "*"
+    };
+  }
+  
   // Login logs in a user and returns an auth token.
-  rpc Login (LoginRequest) returns (LoginResponse);
+  rpc Login (LoginRequest) returns (LoginResponse) {
+    option (google.api.http) = {
+      post: "/v1/auth/login"
+      body: "*"
+    };
+  }
+  
   // IsAdmin checks whether a user is an admin.
-  rpc IsAdmin (IsAdminRequest) returns (IsAdminResponse);
-  rpc Logout (LogoutRequest) returns (LogoutResponse);
-  // UserInfo
-  rpc Profile (ProfileRequest) returns (ProfileResponce);
+  rpc IsAdmin (IsAdminRequest) returns (IsAdminResponse) {
+    option (google.api.http) = {
+      get: "/v1/auth/{user_id}/is_admin"
+    };
+  }
+  
+  // Logout logs out a user.
+  rpc Logout (LogoutRequest) returns (LogoutResponse) {
+    option (google.api.http) = {
+      post: "/v1/auth/logout"
+      body: "*"
+    };
+  }
+}
+
+// User service for managing profiles and users.
+service User {
+  rpc Profile (ProfileRequest) returns (ProfileResponse) {
+    option (google.api.http) = {
+      get: "/v1/users/{user_id}/profile"
+    };
+  }
+  
+  rpc Delete (DeleteUserRequest) returns (DeleteUserResponse) {
+    option (google.api.http) = {
+      delete: "/v1/users/{user_id}"
+    };
+  }
 }
 
 message IsAdminRequest {
@@ -56,9 +94,17 @@ message ProfileRequest {
   int64 user_id = 1;
 }
 
-message ProfileResponce {
+message ProfileResponse {
   int64 user_id = 1;
   string name = 2;
   string email = 3;
   int32 version = 4;
+}
+
+message DeleteUserRequest {
+  int64 user_id = 1;
+}
+
+message DeleteUserResponse {
+  bool success = 1;
 }

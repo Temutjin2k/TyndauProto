@@ -23,7 +23,6 @@ const (
 	Auth_Login_FullMethodName    = "/auth.Auth/Login"
 	Auth_IsAdmin_FullMethodName  = "/auth.Auth/IsAdmin"
 	Auth_Logout_FullMethodName   = "/auth.Auth/Logout"
-	Auth_Profile_FullMethodName  = "/auth.Auth/Profile"
 )
 
 // AuthClient is the client API for Auth service.
@@ -38,9 +37,8 @@ type AuthClient interface {
 	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error)
 	// IsAdmin checks whether a user is an admin.
 	IsAdmin(ctx context.Context, in *IsAdminRequest, opts ...grpc.CallOption) (*IsAdminResponse, error)
+	// Logout logs out a user.
 	Logout(ctx context.Context, in *LogoutRequest, opts ...grpc.CallOption) (*LogoutResponse, error)
-	// UserInfo
-	Profile(ctx context.Context, in *ProfileRequest, opts ...grpc.CallOption) (*ProfileResponce, error)
 }
 
 type authClient struct {
@@ -91,16 +89,6 @@ func (c *authClient) Logout(ctx context.Context, in *LogoutRequest, opts ...grpc
 	return out, nil
 }
 
-func (c *authClient) Profile(ctx context.Context, in *ProfileRequest, opts ...grpc.CallOption) (*ProfileResponce, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ProfileResponce)
-	err := c.cc.Invoke(ctx, Auth_Profile_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // AuthServer is the server API for Auth service.
 // All implementations must embed UnimplementedAuthServer
 // for forward compatibility.
@@ -113,9 +101,8 @@ type AuthServer interface {
 	Login(context.Context, *LoginRequest) (*LoginResponse, error)
 	// IsAdmin checks whether a user is an admin.
 	IsAdmin(context.Context, *IsAdminRequest) (*IsAdminResponse, error)
+	// Logout logs out a user.
 	Logout(context.Context, *LogoutRequest) (*LogoutResponse, error)
-	// UserInfo
-	Profile(context.Context, *ProfileRequest) (*ProfileResponce, error)
 	mustEmbedUnimplementedAuthServer()
 }
 
@@ -137,9 +124,6 @@ func (UnimplementedAuthServer) IsAdmin(context.Context, *IsAdminRequest) (*IsAdm
 }
 func (UnimplementedAuthServer) Logout(context.Context, *LogoutRequest) (*LogoutResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Logout not implemented")
-}
-func (UnimplementedAuthServer) Profile(context.Context, *ProfileRequest) (*ProfileResponce, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Profile not implemented")
 }
 func (UnimplementedAuthServer) mustEmbedUnimplementedAuthServer() {}
 func (UnimplementedAuthServer) testEmbeddedByValue()              {}
@@ -234,24 +218,6 @@ func _Auth_Logout_Handler(srv interface{}, ctx context.Context, dec func(interfa
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Auth_Profile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ProfileRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AuthServer).Profile(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Auth_Profile_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthServer).Profile(ctx, req.(*ProfileRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // Auth_ServiceDesc is the grpc.ServiceDesc for Auth service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -275,9 +241,149 @@ var Auth_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "Logout",
 			Handler:    _Auth_Logout_Handler,
 		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "user/user.proto",
+}
+
+const (
+	User_Profile_FullMethodName = "/auth.User/Profile"
+	User_Delete_FullMethodName  = "/auth.User/Delete"
+)
+
+// UserClient is the client API for User service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// User service for managing profiles and users.
+type UserClient interface {
+	Profile(ctx context.Context, in *ProfileRequest, opts ...grpc.CallOption) (*ProfileResponse, error)
+	Delete(ctx context.Context, in *DeleteUserRequest, opts ...grpc.CallOption) (*DeleteUserResponse, error)
+}
+
+type userClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewUserClient(cc grpc.ClientConnInterface) UserClient {
+	return &userClient{cc}
+}
+
+func (c *userClient) Profile(ctx context.Context, in *ProfileRequest, opts ...grpc.CallOption) (*ProfileResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ProfileResponse)
+	err := c.cc.Invoke(ctx, User_Profile_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) Delete(ctx context.Context, in *DeleteUserRequest, opts ...grpc.CallOption) (*DeleteUserResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteUserResponse)
+	err := c.cc.Invoke(ctx, User_Delete_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// UserServer is the server API for User service.
+// All implementations must embed UnimplementedUserServer
+// for forward compatibility.
+//
+// User service for managing profiles and users.
+type UserServer interface {
+	Profile(context.Context, *ProfileRequest) (*ProfileResponse, error)
+	Delete(context.Context, *DeleteUserRequest) (*DeleteUserResponse, error)
+	mustEmbedUnimplementedUserServer()
+}
+
+// UnimplementedUserServer must be embedded to have
+// forward compatible implementations.
+//
+// NOTE: this should be embedded by value instead of pointer to avoid a nil
+// pointer dereference when methods are called.
+type UnimplementedUserServer struct{}
+
+func (UnimplementedUserServer) Profile(context.Context, *ProfileRequest) (*ProfileResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Profile not implemented")
+}
+func (UnimplementedUserServer) Delete(context.Context, *DeleteUserRequest) (*DeleteUserResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
+}
+func (UnimplementedUserServer) mustEmbedUnimplementedUserServer() {}
+func (UnimplementedUserServer) testEmbeddedByValue()              {}
+
+// UnsafeUserServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to UserServer will
+// result in compilation errors.
+type UnsafeUserServer interface {
+	mustEmbedUnimplementedUserServer()
+}
+
+func RegisterUserServer(s grpc.ServiceRegistrar, srv UserServer) {
+	// If the following call pancis, it indicates UnimplementedUserServer was
+	// embedded by pointer and is nil.  This will cause panics if an
+	// unimplemented method is ever invoked, so we test this at initialization
+	// time to prevent it from happening at runtime later due to I/O.
+	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
+		t.testEmbeddedByValue()
+	}
+	s.RegisterService(&User_ServiceDesc, srv)
+}
+
+func _User_Profile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ProfileRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).Profile(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_Profile_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).Profile(ctx, req.(*ProfileRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_Delete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteUserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).Delete(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_Delete_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).Delete(ctx, req.(*DeleteUserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// User_ServiceDesc is the grpc.ServiceDesc for User service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var User_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "auth.User",
+	HandlerType: (*UserServer)(nil),
+	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "Profile",
-			Handler:    _Auth_Profile_Handler,
+			Handler:    _User_Profile_Handler,
+		},
+		{
+			MethodName: "Delete",
+			Handler:    _User_Delete_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
