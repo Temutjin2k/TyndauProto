@@ -1,50 +1,24 @@
 syntax = "proto3";
 
-package auth;
+package user;
 
 option go_package = "github.com/Temutjin2k/TyndauProto/gen/go/user;userv1";
 
 import "google/api/annotations.proto";
 
-// Auth is service for managing permissions and roles.
-service Auth {
-  // Register registers a new user.
-  rpc Register (RegisterRequest) returns (RegisterResponse) {
-    option (google.api.http) = {
-      post: "/v1/auth/register"
-      body: "*"
-    };
-  }
-  
-  // Login logs in a user and returns an auth token.
-  rpc Login (LoginRequest) returns (LoginResponse) {
-    option (google.api.http) = {
-      post: "/v1/auth/login"
-      body: "*"
-    };
-  }
-  
-  // IsAdmin checks whether a user is an admin.
-  rpc IsAdmin (IsAdminRequest) returns (IsAdminResponse) {
-    option (google.api.http) = {
-      get: "/v1/auth/{user_id}/is_admin"
-    };
-  }
-  
-  // Logout logs out a user.
-  rpc Logout (LogoutRequest) returns (LogoutResponse) {
-    option (google.api.http) = {
-      post: "/v1/auth/logout"
-      body: "*"
-    };
-  }
-}
 
 // User service for managing profiles and users.
 service User {
   rpc Profile (ProfileRequest) returns (ProfileResponse) {
     option (google.api.http) = {
       get: "/v1/users/{user_id}/profile"
+    };
+  }
+
+  rpc Update (UpdateRequest) returns (UpdateResponse) {
+    option (google.api.http) = {
+      patch: "/v1/users/{user_id}"
+      body: "*"
     };
   }
   
@@ -55,56 +29,38 @@ service User {
   }
 }
 
-message IsAdminRequest {
-  int64 user_id = 1; // User ID to validate.
-}
-
-message IsAdminResponse {
-  bool is_admin = 1;  // Indicates whether the user is an admin.
-}
-
-message RegisterRequest {
-  string name = 1;
-  string email = 2;
-  string password = 3;
-}
-
-message RegisterResponse {
-  int64 user_id = 1; // User ID of the registered user.
-}
-
-message LoginRequest {
-  string email = 1; // Email of the user to login.
-  string password = 2; // Password of the user to login.
-}
-
-message LoginResponse {
-  string token = 1; // Auth token of the logged in user.
-}
-
-message LogoutRequest {
-  string token = 1; // Auth token of the user to logout.
-}
-
-message LogoutResponse {
-  bool success = 1; // Indicates whether the logout was successful.
-}
 
 message ProfileRequest {
-  int64 user_id = 1;
+  int64 user_id = 1; // User ID to get
 }
 
 message ProfileResponse {
   int64 user_id = 1;
   string name = 2;
   string email = 3;
-  int32 version = 4;
+  string avatar_link = 4; // Link to user avatar
+  int32 version = 5; // Indicats version of user
+}
+
+message UpdateRequest{
+  int64 user_id = 1;
+  string name = 2;
+  string avatar_link = 3; // Link to user avatar
+  int32 version = 4; // Indicats version of user
+}
+
+message UpdateResponse{
+  int64 user_id = 1;
+  string name = 2;
+  string email = 3;
+  string avatar_link = 4; // Link to user avatar
+  int32 version = 5; // Indicats version of user
 }
 
 message DeleteUserRequest {
-  int64 user_id = 1;
+  int64 user_id = 1; // User ID to delete
 }
 
 message DeleteUserResponse {
-  bool success = 1;
+  bool success = 1; // Indicates whether the user is deleted
 }
