@@ -9,6 +9,8 @@ import "google/api/annotations.proto";
 
 // User service for managing profiles and users.
 service User {
+  rpc Create (CreateRequest) returns (CreateResonse);
+
   rpc Profile (ProfileRequest) returns (ProfileResponse) {
     option (google.api.http) = {
       get: "/v1/users/{user_id}/profile"
@@ -27,6 +29,17 @@ service User {
       delete: "/v1/users/{user_id}"
     };
   }
+}
+
+message CreateRequest{
+  string name = 1; // User name
+  string email = 2; // User email
+  string password = 3; // user password
+  string avatar_link = 4; // Link to user avatar
+}
+
+message CreateResonse{
+  int64 user_id = 1; // User ID of the registered user.
 }
 
 
