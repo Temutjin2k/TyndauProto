@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-package user;
+package auth;
 
-option go_package = "github.com/Temutjin2k/TyndauProto/gen/go/sso;authv1";
+option go_package = "github.com/Temutjin2k/TyndauProto/gen/go/auth;auth";
 
 import "google/api/annotations.proto";
 

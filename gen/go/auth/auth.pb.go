@@ -4,7 +4,7 @@
 // 	protoc        v3.21.12
 // source: auth/auth.proto
 
-package authv1
+package auth
 
 import (
 	_ "google.golang.org/genproto/googleapis/api/annotations"
@@ -410,7 +410,7 @@ var File_auth_auth_proto protoreflect.FileDescriptor
 
 const file_auth_auth_proto_rawDesc = "" +
 	"\n" +
-	"\x0fauth/auth.proto\x12\x04user\x1a\x1cgoogle/api/annotations.proto\"x\n" +
+	"\x0fauth/auth.proto\x12\x04auth\x1a\x1cgoogle/api/annotations.proto\"x\n" +
 	"\x0fRegisterRequest\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x14\n" +
 	"\x05email\x18\x02 \x01(\tR\x05email\x12\x1a\n" +
@@ -433,10 +433,10 @@ const file_auth_auth_proto_rawDesc = "" +
 	"\x0eLogoutResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess2\xda\x02\n" +
 	"\x04Auth\x12W\n" +
-	"\bRegister\x12\x15.user.RegisterRequest\x1a\x16.user.RegisterResponse\"\x1c\x82\xd3\xe4\x93\x02\x16:\x01*\"\x11/v1/auth/register\x12K\n" +
-	"\x05Login\x12\x12.user.LoginRequest\x1a\x13.user.LoginResponse\"\x19\x82\xd3\xe4\x93\x02\x13:\x01*\"\x0e/v1/auth/login\x12[\n" +
-	"\aIsAdmin\x12\x14.user.IsAdminRequest\x1a\x15.user.IsAdminResponse\"#\x82\xd3\xe4\x93\x02\x1d\x12\x1b/v1/auth/{user_id}/is_admin\x12O\n" +
-	"\x06Logout\x12\x13.user.LogoutRequest\x1a\x14.user.LogoutResponse\"\x1a\x82\xd3\xe4\x93\x02\x14:\x01*\"\x0f/v1/auth/logoutB5Z3github.com/Temutjin2k/TyndauProto/gen/go/sso;authv1b\x06proto3"
+	"\bRegister\x12\x15.auth.RegisterRequest\x1a\x16.auth.RegisterResponse\"\x1c\x82\xd3\xe4\x93\x02\x16:\x01*\"\x11/v1/auth/register\x12K\n" +
+	"\x05Login\x12\x12.auth.LoginRequest\x1a\x13.auth.LoginResponse\"\x19\x82\xd3\xe4\x93\x02\x13:\x01*\"\x0e/v1/auth/login\x12[\n" +
+	"\aIsAdmin\x12\x14.auth.IsAdminRequest\x1a\x15.auth.IsAdminResponse\"#\x82\xd3\xe4\x93\x02\x1d\x12\x1b/v1/auth/{user_id}/is_admin\x12O\n" +
+	"\x06Logout\x12\x13.auth.LogoutRequest\x1a\x14.auth.LogoutResponse\"\x1a\x82\xd3\xe4\x93\x02\x14:\x01*\"\x0f/v1/auth/logoutB4Z2github.com/Temutjin2k/TyndauProto/gen/go/auth;authb\x06proto3"
 
 var (
 	file_auth_auth_proto_rawDescOnce sync.Once
@@ -452,24 +452,24 @@ func file_auth_auth_proto_rawDescGZIP() []byte {
 
 var file_auth_auth_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_auth_auth_proto_goTypes = []any{
-	(*RegisterRequest)(nil),  // 0: user.RegisterRequest
-	(*RegisterResponse)(nil), // 1: user.RegisterResponse
-	(*LoginRequest)(nil),     // 2: user.LoginRequest
-	(*LoginResponse)(nil),    // 3: user.LoginResponse
-	(*IsAdminRequest)(nil),   // 4: user.IsAdminRequest
-	(*IsAdminResponse)(nil),  // 5: user.IsAdminResponse
-	(*LogoutRequest)(nil),    // 6: user.LogoutRequest
-	(*LogoutResponse)(nil),   // 7: user.LogoutResponse
+	(*RegisterRequest)(nil),  // 0: auth.RegisterRequest
+	(*RegisterResponse)(nil), // 1: auth.RegisterResponse
+	(*LoginRequest)(nil),     // 2: auth.LoginRequest
+	(*LoginResponse)(nil),    // 3: auth.LoginResponse
+	(*IsAdminRequest)(nil),   // 4: auth.IsAdminRequest
+	(*IsAdminResponse)(nil),  // 5: auth.IsAdminResponse
+	(*LogoutRequest)(nil),    // 6: auth.LogoutRequest
+	(*LogoutResponse)(nil),   // 7: auth.LogoutResponse
 }
 var file_auth_auth_proto_depIdxs = []int32{
-	0, // 0: user.Auth.Register:input_type -> user.RegisterRequest
-	2, // 1: user.Auth.Login:input_type -> user.LoginRequest
-	4, // 2: user.Auth.IsAdmin:input_type -> user.IsAdminRequest
-	6, // 3: user.Auth.Logout:input_type -> user.LogoutRequest
-	1, // 4: user.Auth.Register:output_type -> user.RegisterResponse
-	3, // 5: user.Auth.Login:output_type -> user.LoginResponse
-	5, // 6: user.Auth.IsAdmin:output_type -> user.IsAdminResponse
-	7, // 7: user.Auth.Logout:output_type -> user.LogoutResponse
+	0, // 0: auth.Auth.Register:input_type -> auth.RegisterRequest
+	2, // 1: auth.Auth.Login:input_type -> auth.LoginRequest
+	4, // 2: auth.Auth.IsAdmin:input_type -> auth.IsAdminRequest
+	6, // 3: auth.Auth.Logout:input_type -> auth.LogoutRequest
+	1, // 4: auth.Auth.Register:output_type -> auth.RegisterResponse
+	3, // 5: auth.Auth.Login:output_type -> auth.LoginResponse
+	5, // 6: auth.Auth.IsAdmin:output_type -> auth.IsAdminResponse
+	7, // 7: auth.Auth.Logout:output_type -> auth.LogoutResponse
 	4, // [4:8] is the sub-list for method output_type
 	0, // [0:4] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
