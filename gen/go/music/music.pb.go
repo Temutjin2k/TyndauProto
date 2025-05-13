@@ -25,7 +25,7 @@ const (
 // Represents a song entity.
 type Song struct {
 	state           protoimpl.MessageState `protogen:"open.v1"`
-	Id              string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`                                                   // Unique identifier for the song.
+	Id              int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`                                                  // Unique identifier for the song.
 	Title           string                 `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`                                             // Title of the song.
 	Artist          string                 `protobuf:"bytes,3,opt,name=artist,proto3" json:"artist,omitempty"`                                           // Artist name.
 	Album           string                 `protobuf:"bytes,4,opt,name=album,proto3" json:"album,omitempty"`                                             // Album name.
@@ -67,11 +67,11 @@ func (*Song) Descriptor() ([]byte, []int) {
 	return file_music_music_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *Song) GetId() string {
+func (x *Song) GetId() int64 {
 	if x != nil {
 		return x.Id
 	}
-	return ""
+	return 0
 }
 
 func (x *Song) GetTitle() string {
@@ -219,7 +219,7 @@ func (x *UploadSongRequest) GetFileUrl() string {
 // Response after uploading a song.
 type UploadSongResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"` // Unique ID of the uploaded song.
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"` // Unique ID of the uploaded song.
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -254,11 +254,11 @@ func (*UploadSongResponse) Descriptor() ([]byte, []int) {
 	return file_music_music_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *UploadSongResponse) GetId() string {
+func (x *UploadSongResponse) GetId() int64 {
 	if x != nil {
 		return x.Id
 	}
-	return ""
+	return 0
 }
 
 // Request to get a presigned upload URL.
@@ -362,7 +362,7 @@ func (x *GetUploadURLResponse) GetFileUrl() string {
 // Request to get a song by ID.
 type GetSongRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"` // Song ID.
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"` // Song ID.
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -397,11 +397,11 @@ func (*GetSongRequest) Descriptor() ([]byte, []int) {
 	return file_music_music_proto_rawDescGZIP(), []int{5}
 }
 
-func (x *GetSongRequest) GetId() string {
+func (x *GetSongRequest) GetId() int64 {
 	if x != nil {
 		return x.Id
 	}
-	return ""
+	return 0
 }
 
 // Response with the song data.
@@ -558,7 +558,7 @@ func (x *SearchSongsResponse) GetSongs() []*Song {
 // Request to delete a song by ID.
 type DeleteSongRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"` // Song ID to delete.
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"` // Song ID to delete.
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -593,11 +593,11 @@ func (*DeleteSongRequest) Descriptor() ([]byte, []int) {
 	return file_music_music_proto_rawDescGZIP(), []int{9}
 }
 
-func (x *DeleteSongRequest) GetId() string {
+func (x *DeleteSongRequest) GetId() int64 {
 	if x != nil {
 		return x.Id
 	}
-	return ""
+	return 0
 }
 
 // Response confirming deletion.
@@ -651,7 +651,7 @@ const file_music_music_proto_rawDesc = "" +
 	"\n" +
 	"\x11music/music.proto\x12\x05music\x1a\x1cgoogle/api/annotations.proto\"\xd9\x01\n" +
 	"\x04Song\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x14\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x14\n" +
 	"\x05title\x18\x02 \x01(\tR\x05title\x12\x16\n" +
 	"\x06artist\x18\x03 \x01(\tR\x06artist\x12\x14\n" +
 	"\x05album\x18\x04 \x01(\tR\x05album\x12\x14\n" +
@@ -668,7 +668,7 @@ const file_music_music_proto_rawDesc = "" +
 	"\frelease_date\x18\x06 \x01(\tR\vreleaseDate\x12\x19\n" +
 	"\bfile_url\x18\a \x01(\tR\afileUrl\"$\n" +
 	"\x12UploadSongResponse\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\"1\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\"1\n" +
 	"\x13GetUploadURLRequest\x12\x1a\n" +
 	"\bfilename\x18\x01 \x01(\tR\bfilename\"P\n" +
 	"\x14GetUploadURLResponse\x12\x1d\n" +
@@ -676,7 +676,7 @@ const file_music_music_proto_rawDesc = "" +
 	"upload_url\x18\x01 \x01(\tR\tuploadUrl\x12\x19\n" +
 	"\bfile_url\x18\x02 \x01(\tR\afileUrl\" \n" +
 	"\x0eGetSongRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\"2\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\"2\n" +
 	"\x0fGetSongResponse\x12\x1f\n" +
 	"\x04song\x18\x01 \x01(\v2\v.music.SongR\x04song\"X\n" +
 	"\x12SearchSongsRequest\x12\x14\n" +
@@ -686,7 +686,7 @@ const file_music_music_proto_rawDesc = "" +
 	"\x13SearchSongsResponse\x12!\n" +
 	"\x05songs\x18\x01 \x03(\v2\v.music.SongR\x05songs\"#\n" +
 	"\x11DeleteSongRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\".\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\".\n" +
 	"\x12DeleteSongResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess2\xce\x03\n" +
 	"\x05Music\x12Z\n" +

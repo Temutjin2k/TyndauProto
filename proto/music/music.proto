@@ -47,7 +47,7 @@ service Music {
 
 // Represents a song entity.
 message Song {
-  string id = 1;             // Unique identifier for the song.
+  int64 id = 1;             // Unique identifier for the song.
   string title = 2;          // Title of the song.
   string artist = 3;         // Artist name.
   string album = 4;          // Album name.
@@ -70,7 +70,7 @@ message UploadSongRequest {
 
 // Response after uploading a song.
 message UploadSongResponse {
-  string id = 1; // Unique ID of the uploaded song.
+  int64 id = 1; // Unique ID of the uploaded song.
 }
 
 // Request to get a presigned upload URL.
@@ -87,7 +87,7 @@ message GetUploadURLResponse {
 
 // Request to get a song by ID.
 message GetSongRequest {
-  string id = 1; // Song ID.
+  int64 id = 1; // Song ID.
 }
 
 // Response with the song data.
@@ -109,7 +109,7 @@ message SearchSongsResponse {
 
 // Request to delete a song by ID.
 message DeleteSongRequest {
-  string id = 1; // Song ID to delete.
+  int64 id = 1; // Song ID to delete.
 }
 
 // Response confirming deletion.

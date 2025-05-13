@@ -103,7 +103,7 @@ func request_Music_GetSong_0(ctx context.Context, marshaler runtime.Marshaler, c
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "id")
 	}
-	protoReq.Id, err = runtime.String(val)
+	protoReq.Id, err = runtime.Int64(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "id", err)
 	}
@@ -121,7 +121,7 @@ func local_request_Music_GetSong_0(ctx context.Context, marshaler runtime.Marsha
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "id")
 	}
-	protoReq.Id, err = runtime.String(val)
+	protoReq.Id, err = runtime.Int64(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "id", err)
 	}
@@ -173,7 +173,7 @@ func request_Music_Delete_0(ctx context.Context, marshaler runtime.Marshaler, cl
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "id")
 	}
-	protoReq.Id, err = runtime.String(val)
+	protoReq.Id, err = runtime.Int64(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "id", err)
 	}
@@ -191,7 +191,7 @@ func local_request_Music_Delete_0(ctx context.Context, marshaler runtime.Marshal
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "id")
 	}
-	protoReq.Id, err = runtime.String(val)
+	protoReq.Id, err = runtime.Int64(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "id", err)
 	}
