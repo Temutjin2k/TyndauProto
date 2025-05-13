@@ -1,0 +1,119 @@
+syntax = "proto3";
+
+package music;
+
+option go_package = "github.com/Temutjin2k/TyndauProto/gen/go/music;music";
+
+import "google/api/annotations.proto";
+
+// Music is a service for managing music content like songs and their metadata.
+service Music {
+  // Upload adds a new song to the system.
+  rpc Upload (UploadSongRequest) returns (UploadSongResponse) {
+    option (google.api.http) = {
+      post: "/v1/music/upload"
+      body: "*"
+    };
+  }
+
+  // Get a presigned URL for uploading a song file to storage.
+  rpc GetUploadURL (GetUploadURLRequest) returns (GetUploadURLResponse) {
+    option (google.api.http) = {
+      get: "/v1/music/upload-url"
+    };
+  }
+
+  // GetSong returns a song by its ID.
+  rpc GetSong (GetSongRequest) returns (GetSongResponse) {
+    option (google.api.http) = {
+      get: "/v1/music/{id}"
+    };
+  }
+
+  // Search finds songs by title, artist, or album.
+  rpc Search (SearchSongsRequest) returns (SearchSongsResponse) {
+    option (google.api.http) = {
+      get: "/v1/music/search"
+    };
+  }
+
+  // Delete removes a song by its ID.
+  rpc Delete (DeleteSongRequest) returns (DeleteSongResponse) {
+    option (google.api.http) = {
+      delete: "/v1/music/{id}"
+    };
+  }
+}
+
+// Represents a song entity.
+message Song {
+  string id = 1;             // Unique identifier for the song.
+  string title = 2;          // Title of the song.
+  string artist = 3;         // Artist name.
+  string album = 4;          // Album name.
+  string genre = 5;          // Genre of the song.
+  int32 duration_seconds = 6;// Duration in seconds.
+  string release_date = 7;   // Release date in ISO format.
+  string file_url = 8;       // URL to the song file.
+}
+
+// Request to upload a new song.
+message UploadSongRequest {
+  string title = 1;           // Title of the song.
+  string artist = 2;          // Artist name.
+  string album = 3;           // Album name.
+  string genre = 4;           // Genre of the song.
+  int32 duration_seconds = 5; // Duration in seconds.
+  string release_date = 6;    // Release date in ISO format.
+  string file_url = 7;        // URL to the uploaded file.
+}
+
+// Response after uploading a song.
+message UploadSongResponse {
+  string id = 1; // Unique ID of the uploaded song.
+}
+
+// Request to get a presigned upload URL.
+message GetUploadURLRequest {
+  string filename = 1; // Original filename (e.g., "song.mp3")
+}
+
+// Response containing presigned PUT URL and public file URL.
+message GetUploadURLResponse {
+  string upload_url = 1; // Temporary signed URL to PUT the file
+  string file_url = 2;   // Permanent public URL to access uploaded file
+}
+
+
+// Request to get a song by ID.
+message GetSongRequest {
+  string id = 1; // Song ID.
+}
+
+// Response with the song data.
+message GetSongResponse {
+  Song song = 1; // The song details.
+}
+
+// Request for searching songs.
+message SearchSongsRequest {
+  string query = 1;  // Free-text search on title, artist, etc.
+  int32 limit = 2;   // Max number of songs to return.
+  int32 offset = 3;  // Pagination offset.
+}
+
+// Response containing matched songs.
+message SearchSongsResponse {
+  repeated Song songs = 1; // List of matched songs.
+}
+
+// Request to delete a song by ID.
+message DeleteSongRequest {
+  string id = 1; // Song ID to delete.
+}
+
+// Response confirming deletion.
+message DeleteSongResponse {
+  bool success = 1; // Indicates success of the deletion.
+}
+
