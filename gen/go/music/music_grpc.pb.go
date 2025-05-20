@@ -19,11 +19,10 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Music_Upload_FullMethodName       = "/music.Music/Upload"
-	Music_GetUploadURL_FullMethodName = "/music.Music/GetUploadURL"
-	Music_GetSong_FullMethodName      = "/music.Music/GetSong"
-	Music_Search_FullMethodName       = "/music.Music/Search"
-	Music_Delete_FullMethodName       = "/music.Music/Delete"
+	Music_Upload_FullMethodName  = "/music.Music/Upload"
+	Music_GetSong_FullMethodName = "/music.Music/GetSong"
+	Music_Search_FullMethodName  = "/music.Music/Search"
+	Music_Delete_FullMethodName  = "/music.Music/Delete"
 )
 
 // MusicClient is the client API for Music service.
@@ -34,8 +33,6 @@ const (
 type MusicClient interface {
 	// Upload adds a new song to the system.
 	Upload(ctx context.Context, in *UploadSongRequest, opts ...grpc.CallOption) (*UploadSongResponse, error)
-	// Get a presigned URL for uploading a song file to storage.
-	GetUploadURL(ctx context.Context, in *GetUploadURLRequest, opts ...grpc.CallOption) (*GetUploadURLResponse, error)
 	// GetSong returns a song by its ID.
 	GetSong(ctx context.Context, in *GetSongRequest, opts ...grpc.CallOption) (*GetSongResponse, error)
 	// Search finds songs by title, artist, or album.
@@ -56,16 +53,6 @@ func (c *musicClient) Upload(ctx context.Context, in *UploadSongRequest, opts ..
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(UploadSongResponse)
 	err := c.cc.Invoke(ctx, Music_Upload_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *musicClient) GetUploadURL(ctx context.Context, in *GetUploadURLRequest, opts ...grpc.CallOption) (*GetUploadURLResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetUploadURLResponse)
-	err := c.cc.Invoke(ctx, Music_GetUploadURL_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -110,8 +97,6 @@ func (c *musicClient) Delete(ctx context.Context, in *DeleteSongRequest, opts ..
 type MusicServer interface {
 	// Upload adds a new song to the system.
 	Upload(context.Context, *UploadSongRequest) (*UploadSongResponse, error)
-	// Get a presigned URL for uploading a song file to storage.
-	GetUploadURL(context.Context, *GetUploadURLRequest) (*GetUploadURLResponse, error)
 	// GetSong returns a song by its ID.
 	GetSong(context.Context, *GetSongRequest) (*GetSongResponse, error)
 	// Search finds songs by title, artist, or album.
@@ -130,9 +115,6 @@ type UnimplementedMusicServer struct{}
 
 func (UnimplementedMusicServer) Upload(context.Context, *UploadSongRequest) (*UploadSongResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Upload not implemented")
-}
-func (UnimplementedMusicServer) GetUploadURL(context.Context, *GetUploadURLRequest) (*GetUploadURLResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetUploadURL not implemented")
 }
 func (UnimplementedMusicServer) GetSong(context.Context, *GetSongRequest) (*GetSongResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetSong not implemented")
@@ -178,24 +160,6 @@ func _Music_Upload_Handler(srv interface{}, ctx context.Context, dec func(interf
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(MusicServer).Upload(ctx, req.(*UploadSongRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Music_GetUploadURL_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetUploadURLRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(MusicServer).GetUploadURL(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Music_GetUploadURL_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MusicServer).GetUploadURL(ctx, req.(*GetUploadURLRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -264,10 +228,6 @@ var Music_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Upload",
 			Handler:    _Music_Upload_Handler,
-		},
-		{
-			MethodName: "GetUploadURL",
-			Handler:    _Music_GetUploadURL_Handler,
 		},
 		{
 			MethodName: "GetSong",

@@ -17,11 +17,11 @@ service Music {
   }
 
   // Get a presigned URL for uploading a song file to storage.
-  rpc GetUploadURL (GetUploadURLRequest) returns (GetUploadURLResponse) {
-    option (google.api.http) = {
-      get: "/v1/music/upload-url"
-    };
-  }
+  // rpc GetUploadURL (GetUploadURLRequest) returns (GetUploadURLResponse) {
+  //   option (google.api.http) = {
+  //     get: "/v1/music/upload-url"
+  //   };
+  // }
 
   // GetSong returns a song by its ID.
   rpc GetSong (GetSongRequest) returns (GetSongResponse) {
@@ -59,30 +59,32 @@ message Song {
 
 // Request to upload a new song.
 message UploadSongRequest {
-  string title = 1;           // Title of the song.
+  string title = 1;           // Song title.
   string artist = 2;          // Artist name.
   string album = 3;           // Album name.
-  string genre = 4;           // Genre of the song.
+  string genre = 4;           // Genre.
   int32 duration_seconds = 5; // Duration in seconds.
-  string release_date = 6;    // Release date in ISO format.
-  string file_url = 7;        // URL to the uploaded file.
+  string release_date = 6;    // ISO format.
+  string filename = 7;        // Filename like "track.mp3"
 }
 
 // Response after uploading a song.
 message UploadSongResponse {
   int64 id = 1; // Unique ID of the uploaded song.
+  string upload_url = 2;  // Presigned PUT URL to upload the actual file.
+  string file_url = 3;   // Permanent public URL to access uploaded file
 }
 
-// Request to get a presigned upload URL.
-message GetUploadURLRequest {
-  string filename = 1; // Original filename (e.g., "song.mp3")
-}
+// // Request to get a presigned upload URL.
+// message GetUploadURLRequest {
+//   string filename = 1; // Original filename (e.g., "song.mp3")
+// }
 
-// Response containing presigned PUT URL and public file URL.
-message GetUploadURLResponse {
-  string upload_url = 1; // Temporary signed URL to PUT the file
-  string file_url = 2;   // Permanent public URL to access uploaded file
-}
+// // Response containing presigned PUT URL and public file URL.
+// message GetUploadURLResponse {
+//   string upload_url = 1; // Temporary signed URL to PUT the file
+//   string file_url = 2;   // Permanent public URL to access uploaded file
+// }
 
 
 // Request to get a song by ID.
