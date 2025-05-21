@@ -1,4 +1,6 @@
-.PHONY: init user-gen auth-gen
+.PHONY: init user-gen auth-gen music-gen
+
+gen-all: user-gen auth-gen music-gen
 
 user-gen:
 		protoc -I proto -I third_party/googleapis proto/user/*.proto \

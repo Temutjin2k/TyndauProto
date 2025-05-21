@@ -16,13 +16,6 @@ service Music {
     };
   }
 
-  // Get a presigned URL for uploading a song file to storage.
-  // rpc GetUploadURL (GetUploadURLRequest) returns (GetUploadURLResponse) {
-  //   option (google.api.http) = {
-  //     get: "/v1/music/upload-url"
-  //   };
-  // }
-
   // GetSong returns a song by its ID.
   rpc GetSong (GetSongRequest) returns (GetSongResponse) {
     option (google.api.http) = {
@@ -74,18 +67,6 @@ message UploadSongResponse {
   string upload_url = 2;  // Presigned PUT URL to upload the actual file.
   string file_url = 3;   // Permanent public URL to access uploaded file
 }
-
-// // Request to get a presigned upload URL.
-// message GetUploadURLRequest {
-//   string filename = 1; // Original filename (e.g., "song.mp3")
-// }
-
-// // Response containing presigned PUT URL and public file URL.
-// message GetUploadURLResponse {
-//   string upload_url = 1; // Temporary signed URL to PUT the file
-//   string file_url = 2;   // Permanent public URL to access uploaded file
-// }
-
 
 // Request to get a song by ID.
 message GetSongRequest {

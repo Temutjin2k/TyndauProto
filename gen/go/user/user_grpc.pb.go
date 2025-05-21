@@ -19,10 +19,11 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	User_Create_FullMethodName  = "/user.User/Create"
-	User_Profile_FullMethodName = "/user.User/Profile"
-	User_Update_FullMethodName  = "/user.User/Update"
-	User_Delete_FullMethodName  = "/user.User/Delete"
+	User_Create_FullMethodName         = "/user.User/Create"
+	User_ProfileByEmail_FullMethodName = "/user.User/ProfileByEmail"
+	User_Profile_FullMethodName        = "/user.User/Profile"
+	User_Update_FullMethodName         = "/user.User/Update"
+	User_Delete_FullMethodName         = "/user.User/Delete"
 )
 
 // UserClient is the client API for User service.
@@ -32,6 +33,7 @@ const (
 // User service for managing profiles and users.
 type UserClient interface {
 	Create(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateResonse, error)
+	ProfileByEmail(ctx context.Context, in *ProfileByEmailRequest, opts ...grpc.CallOption) (*ProfileResponse, error)
 	Profile(ctx context.Context, in *ProfileRequest, opts ...grpc.CallOption) (*ProfileResponse, error)
 	Update(ctx context.Context, in *UpdateRequest, opts ...grpc.CallOption) (*UpdateResponse, error)
 	Delete(ctx context.Context, in *DeleteUserRequest, opts ...grpc.CallOption) (*DeleteUserResponse, error)
@@ -49,6 +51,16 @@ func (c *userClient) Create(ctx context.Context, in *CreateRequest, opts ...grpc
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(CreateResonse)
 	err := c.cc.Invoke(ctx, User_Create_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) ProfileByEmail(ctx context.Context, in *ProfileByEmailRequest, opts ...grpc.CallOption) (*ProfileResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ProfileResponse)
+	err := c.cc.Invoke(ctx, User_ProfileByEmail_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -92,6 +104,7 @@ func (c *userClient) Delete(ctx context.Context, in *DeleteUserRequest, opts ...
 // User service for managing profiles and users.
 type UserServer interface {
 	Create(context.Context, *CreateRequest) (*CreateResonse, error)
+	ProfileByEmail(context.Context, *ProfileByEmailRequest) (*ProfileResponse, error)
 	Profile(context.Context, *ProfileRequest) (*ProfileResponse, error)
 	Update(context.Context, *UpdateRequest) (*UpdateResponse, error)
 	Delete(context.Context, *DeleteUserRequest) (*DeleteUserResponse, error)
@@ -107,6 +120,9 @@ type UnimplementedUserServer struct{}
 
 func (UnimplementedUserServer) Create(context.Context, *CreateRequest) (*CreateResonse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
+}
+func (UnimplementedUserServer) ProfileByEmail(context.Context, *ProfileByEmailRequest) (*ProfileResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ProfileByEmail not implemented")
 }
 func (UnimplementedUserServer) Profile(context.Context, *ProfileRequest) (*ProfileResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Profile not implemented")
@@ -152,6 +168,24 @@ func _User_Create_Handler(srv interface{}, ctx context.Context, dec func(interfa
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UserServer).Create(ctx, req.(*CreateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_ProfileByEmail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ProfileByEmailRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).ProfileByEmail(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_ProfileByEmail_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).ProfileByEmail(ctx, req.(*ProfileByEmailRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -220,6 +254,10 @@ var User_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Create",
 			Handler:    _User_Create_Handler,
+		},
+		{
+			MethodName: "ProfileByEmail",
+			Handler:    _User_ProfileByEmail_Handler,
 		},
 		{
 			MethodName: "Profile",
