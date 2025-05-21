@@ -257,6 +257,7 @@ func (x *ProfileResponse) GetVersion() int32 {
 type ProfileByEmailRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Email         string                 `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
+	PlainPassword string                 `protobuf:"bytes,2,opt,name=plain_password,json=plainPassword,proto3" json:"plain_password,omitempty"` // Open password
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -298,12 +299,20 @@ func (x *ProfileByEmailRequest) GetEmail() string {
 	return ""
 }
 
+func (x *ProfileByEmailRequest) GetPlainPassword() string {
+	if x != nil {
+		return x.PlainPassword
+	}
+	return ""
+}
+
 type UpdateRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserId        int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
 	AvatarLink    string                 `protobuf:"bytes,3,opt,name=avatar_link,json=avatarLink,proto3" json:"avatar_link,omitempty"` // Link to user avatar
-	Version       int32                  `protobuf:"varint,4,opt,name=version,proto3" json:"version,omitempty"`                        // Indicats version of user
+	PasswordHash  string                 `protobuf:"bytes,4,opt,name=passwordHash,proto3" json:"passwordHash,omitempty"`               // Password Hash
+	Version       int32                  `protobuf:"varint,5,opt,name=version,proto3" json:"version,omitempty"`                        // Indicats version of user
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -355,6 +364,13 @@ func (x *UpdateRequest) GetName() string {
 func (x *UpdateRequest) GetAvatarLink() string {
 	if x != nil {
 		return x.AvatarLink
+	}
+	return ""
+}
+
+func (x *UpdateRequest) GetPasswordHash() string {
+	if x != nil {
+		return x.PasswordHash
 	}
 	return ""
 }
@@ -551,15 +567,17 @@ const file_user_user_proto_rawDesc = "" +
 	"\x05email\x18\x03 \x01(\tR\x05email\x12\x1f\n" +
 	"\vavatar_link\x18\x04 \x01(\tR\n" +
 	"avatarLink\x12\x18\n" +
-	"\aversion\x18\x05 \x01(\x05R\aversion\"-\n" +
+	"\aversion\x18\x05 \x01(\x05R\aversion\"T\n" +
 	"\x15ProfileByEmailRequest\x12\x14\n" +
-	"\x05email\x18\x01 \x01(\tR\x05email\"w\n" +
+	"\x05email\x18\x01 \x01(\tR\x05email\x12%\n" +
+	"\x0eplain_password\x18\x02 \x01(\tR\rplainPassword\"\x9b\x01\n" +
 	"\rUpdateRequest\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x1f\n" +
 	"\vavatar_link\x18\x03 \x01(\tR\n" +
-	"avatarLink\x12\x18\n" +
-	"\aversion\x18\x04 \x01(\x05R\aversion\"\x8e\x01\n" +
+	"avatarLink\x12\"\n" +
+	"\fpasswordHash\x18\x04 \x01(\tR\fpasswordHash\x12\x18\n" +
+	"\aversion\x18\x05 \x01(\x05R\aversion\"\x8e\x01\n" +
 	"\x0eUpdateResponse\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x14\n" +

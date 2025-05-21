@@ -59,13 +59,16 @@ message ProfileResponse {
 
 message ProfileByEmailRequest{
   string email = 1;
+  string plain_password = 2;  // Open password
 }
+
 
 message UpdateRequest{
   int64 user_id = 1;
   string name = 2;
   string avatar_link = 3; // Link to user avatar
-  int32 version = 4; // Indicats version of user
+  string passwordHash = 4;  // Password Hash
+  int32 version = 5; // Indicats version of user
 }
 
 message UpdateResponse{
