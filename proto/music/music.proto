@@ -30,6 +30,14 @@ service Music {
     };
   }
 
+  // Update modifies an existing song's metadata.
+  rpc Update (UpdateSongRequest) returns (UpdateSongResponse) {
+    option (google.api.http) = {
+      patch: "/v1/music/{id}"
+      body: "*"
+    };
+  }
+
   // Delete removes a song by its ID.
   rpc Delete (DeleteSongRequest) returns (DeleteSongResponse) {
     option (google.api.http) = {
@@ -88,6 +96,21 @@ message SearchSongsRequest {
 // Response containing matched songs.
 message SearchSongsResponse {
   repeated Song songs = 1; // List of matched songs.
+}
+
+message UpdateSongRequest {
+  int64 id = 1;                     // Обязательное поле (ID трека)
+  optional string title = 2;         // Опциональное поле (новый заголовок)
+  optional string artist = 3;        // Опциональное поле (новый исполнитель)
+  optional string album = 4;         // Опциональное поле (новый альбом)
+  optional string genre = 5;         // Опциональное поле (новый жанр)
+  optional int32 duration_seconds = 6; // Опциональное поле (новая длительность)
+  optional string release_date = 7;  // Опциональное поле (новая дата релиза)
+}
+
+// Response after updating a song.
+message UpdateSongResponse {
+  Song song = 1; // The updated song details.
 }
 
 // Request to delete a song by ID.

@@ -22,6 +22,7 @@ const (
 	Music_Upload_FullMethodName  = "/music.Music/Upload"
 	Music_GetSong_FullMethodName = "/music.Music/GetSong"
 	Music_Search_FullMethodName  = "/music.Music/Search"
+	Music_Update_FullMethodName  = "/music.Music/Update"
 	Music_Delete_FullMethodName  = "/music.Music/Delete"
 )
 
@@ -37,6 +38,8 @@ type MusicClient interface {
 	GetSong(ctx context.Context, in *GetSongRequest, opts ...grpc.CallOption) (*GetSongResponse, error)
 	// Search finds songs by title, artist, or album.
 	Search(ctx context.Context, in *SearchSongsRequest, opts ...grpc.CallOption) (*SearchSongsResponse, error)
+	// Update modifies an existing song's metadata.
+	Update(ctx context.Context, in *UpdateSongRequest, opts ...grpc.CallOption) (*UpdateSongResponse, error)
 	// Delete removes a song by its ID.
 	Delete(ctx context.Context, in *DeleteSongRequest, opts ...grpc.CallOption) (*DeleteSongResponse, error)
 }
@@ -79,6 +82,16 @@ func (c *musicClient) Search(ctx context.Context, in *SearchSongsRequest, opts .
 	return out, nil
 }
 
+func (c *musicClient) Update(ctx context.Context, in *UpdateSongRequest, opts ...grpc.CallOption) (*UpdateSongResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateSongResponse)
+	err := c.cc.Invoke(ctx, Music_Update_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *musicClient) Delete(ctx context.Context, in *DeleteSongRequest, opts ...grpc.CallOption) (*DeleteSongResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DeleteSongResponse)
@@ -101,6 +114,8 @@ type MusicServer interface {
 	GetSong(context.Context, *GetSongRequest) (*GetSongResponse, error)
 	// Search finds songs by title, artist, or album.
 	Search(context.Context, *SearchSongsRequest) (*SearchSongsResponse, error)
+	// Update modifies an existing song's metadata.
+	Update(context.Context, *UpdateSongRequest) (*UpdateSongResponse, error)
 	// Delete removes a song by its ID.
 	Delete(context.Context, *DeleteSongRequest) (*DeleteSongResponse, error)
 	mustEmbedUnimplementedMusicServer()
@@ -121,6 +136,9 @@ func (UnimplementedMusicServer) GetSong(context.Context, *GetSongRequest) (*GetS
 }
 func (UnimplementedMusicServer) Search(context.Context, *SearchSongsRequest) (*SearchSongsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Search not implemented")
+}
+func (UnimplementedMusicServer) Update(context.Context, *UpdateSongRequest) (*UpdateSongResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
 }
 func (UnimplementedMusicServer) Delete(context.Context, *DeleteSongRequest) (*DeleteSongResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
@@ -200,6 +218,24 @@ func _Music_Search_Handler(srv interface{}, ctx context.Context, dec func(interf
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Music_Update_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateSongRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MusicServer).Update(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Music_Update_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MusicServer).Update(ctx, req.(*UpdateSongRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Music_Delete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DeleteSongRequest)
 	if err := dec(in); err != nil {
@@ -236,6 +272,10 @@ var Music_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Search",
 			Handler:    _Music_Search_Handler,
+		},
+		{
+			MethodName: "Update",
+			Handler:    _Music_Update_Handler,
 		},
 		{
 			MethodName: "Delete",
